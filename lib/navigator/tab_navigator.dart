@@ -20,6 +20,12 @@ class _TabNavigatorState extends State<TabNavigator> {
     return Scaffold(
       body: PageView(
         controller: _controller,
+        onPageChanged: (int index) {
+          print('当前页面下标是：$index');
+          setState(() {
+            _currentIndex = index;
+          });
+        },
         children: [
           HomePage(),
           SearchPage(),
