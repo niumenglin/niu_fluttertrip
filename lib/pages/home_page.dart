@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
-import 'package:niu_fluttertrip/test/test_http.dart';
+import 'package:niu_fluttertrip/test/test_page.dart';
 
 ///首页
 const APPBAR_SCROLL_OFFSET = 100;
@@ -46,9 +46,9 @@ class _HomePageState extends State<HomePage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => TestHttp()));
+                                    builder: (context) => TestPage()));
                           },
-                          child: Text('哈哈'),
+                          child: Text('测试页面'),
                         ),
                       ),
                     )
