@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+import 'package:niu_fluttertrip/test/test_http.dart';
 
 ///首页
 const APPBAR_SCROLL_OFFSET = 100;
@@ -40,7 +41,15 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(
                       height: 800,
                       child: ListTile(
-                        title: Text('哈哈'),
+                        title: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => TestHttp()));
+                          },
+                          child: Text('哈哈'),
+                        ),
                       ),
                     )
                   ],
