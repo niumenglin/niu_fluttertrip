@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:niu_fluttertrip/test/test_futurebuilder.dart';
 
 /// @author: niumenglin
 /// @time: 2022/2/21-10:46 上午
@@ -19,7 +20,9 @@ class _TestHttpState extends State<TestHttp> {
   static Future<CommonModel> fetchPost() async {
     final response = await http.get(Uri.parse(
         'http://www.devio.org/io/flutter_app/json/test_common_model.json'));
-    final result = json.decode(response.body);
+    // final result = json.decode(response.body);
+    Utf8Decoder utf8decoder = Utf8Decoder();
+    var result = json.decode(utf8decoder.convert(response.bodyBytes));
     return CommonModel.fromJson(result);
   }
 
@@ -47,6 +50,21 @@ class _TestHttpState extends State<TestHttp> {
               ),
             ),
             Text(_showResult),
+            SizedBox(
+              height: 50,
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => TestFutureBuilder()));
+              },
+              child: Text(
+                'Future与FutureBuilder实用技巧',
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
           ],
         ),
       ),
