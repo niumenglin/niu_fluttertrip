@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
 
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:niu_fluttertrip/dao/home_dao.dart';
+import 'package:niu_fluttertrip/model/common_model.dart';
 import 'package:niu_fluttertrip/model/home_model.dart';
 import 'package:niu_fluttertrip/test/test_page.dart';
+import 'package:niu_fluttertrip/widgets/local_nav.dart';
 
 ///首页
 const APPBAR_SCROLL_OFFSET = 100;
 
 class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -21,7 +24,7 @@ class _HomePageState extends State<HomePage> {
     'https://th.bing.com/th/id/OIP.P2fBbJvuWdWPkRL-vVxhDAHaDJ?pid=ImgDet&rs=1',
   ];
   double _appBarAlpha = 0;
-  String resultString = '';
+  List<CommonModel> localNavList = [];
 
   @override
   void initState() {
@@ -29,34 +32,21 @@ class _HomePageState extends State<HomePage> {
     loadData();
   }
 
-  // loadData() {
-  //   HomeDao.fetch().then((result) {
-  //     setState(() {
-  //       resultString = json.encode(result);
-  //     });
-  //   }).catchError((e) {
-  //     setState(() {
-  //       resultString = e.toString();
-  //     });
-  //   });
-  // }
-
   loadData() async {
     try {
       HomeModel? model = await HomeDao.fetch();
       setState(() {
-        resultString = json.encode(model);
+        localNavList = model?.localNavList ?? [];
       });
     } catch (e) {
-      setState(() {
-        resultString = e.toString();
-      });
+      print(e);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xfff2f2f2),
       body: Stack(
         children: [
           MediaQuery.removePadding(
@@ -74,6 +64,10 @@ class _HomePageState extends State<HomePage> {
                 child: ListView(
                   children: [
                     _buildBanner(),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(7, 4, 7, 4),
+                      child: LocalNav(localNavList: localNavList),
+                    ),
                     SizedBox(
                       height: 800,
                       child: ListTile(
@@ -82,9 +76,9 @@ class _HomePageState extends State<HomePage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => TestPage()));
+                                    builder: (context) => const TestPage()));
                           },
-                          child: Text(resultString),
+                          child: const Text('测试页面'),
                         ),
                       ),
                     )
