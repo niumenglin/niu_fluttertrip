@@ -33,4 +33,17 @@ class SalesBoxModel {
       smallCard4: CommonModel.fromJson(json['smallCard4']),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final data = <String, dynamic>{};
+    data['icon'] = icon;
+    data['moreUrl'] = moreUrl;
+    data['bigCard1'] = bigCard1;
+    data['bigCard2'] = bigCard2;
+    data['smallCard1'] = smallCard1;
+    data['smallCard2'] = smallCard2;
+    data['smallCard3'] = smallCard3;
+    data['smallCard4'] = smallCard4;
+    return data;
+  }
 }

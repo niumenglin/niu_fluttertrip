@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+import 'package:niu_fluttertrip/dao/home_dao.dart';
+import 'package:niu_fluttertrip/model/home_model.dart';
 import 'package:niu_fluttertrip/test/test_page.dart';
 
 ///首页
@@ -17,6 +21,38 @@ class _HomePageState extends State<HomePage> {
     'https://th.bing.com/th/id/OIP.P2fBbJvuWdWPkRL-vVxhDAHaDJ?pid=ImgDet&rs=1',
   ];
   double _appBarAlpha = 0;
+  String resultString = '';
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  // loadData() {
+  //   HomeDao.fetch().then((result) {
+  //     setState(() {
+  //       resultString = json.encode(result);
+  //     });
+  //   }).catchError((e) {
+  //     setState(() {
+  //       resultString = e.toString();
+  //     });
+  //   });
+  // }
+
+  loadData() async {
+    try {
+      HomeModel? model = await HomeDao.fetch();
+      setState(() {
+        resultString = json.encode(model);
+      });
+    } catch (e) {
+      setState(() {
+        resultString = e.toString();
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +84,7 @@ class _HomePageState extends State<HomePage> {
                                 MaterialPageRoute(
                                     builder: (context) => TestPage()));
                           },
-                          child: Text('测试页面'),
+                          child: Text(resultString),
                         ),
                       ),
                     )
@@ -108,8 +144,8 @@ class _HomePageState extends State<HomePage> {
       opacity: _appBarAlpha, //不透明度
       child: Container(
         height: 80,
-        decoration: BoxDecoration(color: Colors.white),
-        child: Center(
+        decoration: const BoxDecoration(color: Colors.white),
+        child: const Center(
           child: Padding(
             padding: EdgeInsets.only(top: 20),
             child: Text('首页'),

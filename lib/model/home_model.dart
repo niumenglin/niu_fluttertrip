@@ -42,4 +42,21 @@ class HomeModel {
       salesBox: SalesBoxModel.fromJson(json['salesBox']),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final data = <String, dynamic>{};
+    data['config'] = config;
+    data['gridNav'] = gridNav;
+    data['salesBox'] = salesBox;
+    if (bannerList != null) {
+      data['bannerList'] = bannerList!.map((v) => v.toJson()).toList();
+    }
+    if (localNavList != null) {
+      data['localNavList'] = localNavList!.map((v) => v.toJson()).toList();
+    }
+    if (subNavList != null) {
+      data['subNavList'] = subNavList!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }
