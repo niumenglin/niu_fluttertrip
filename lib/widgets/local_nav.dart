@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:niu_fluttertrip/model/common_model.dart';
+import 'package:niu_fluttertrip/widgets/webview.dart';
 
 ///球区入口
 class LocalNav extends StatelessWidget {
@@ -36,7 +37,17 @@ class LocalNav extends StatelessWidget {
 
   Widget _item(BuildContext context, CommonModel model) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        //跳转至自定义WebView容器
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => WebView(
+                      url: model.url,
+                      statusBarColor: model.statusBarColor,
+                      hideAppBar: model.hideAppBar,
+                    )));
+      },
       child: Column(
         children: [
           Image.network(

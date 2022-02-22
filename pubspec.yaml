@@ -39,6 +39,8 @@ dependencies:
   http: ^0.13.4
   # 本地存储 https://pub.dev/packages/shared_preferences/versions
   shared_preferences: ^2.0.13
+  # WebView https://pub.dev/packages/webview_flutter/versions
+  webview_flutter: ^3.0.0
 
 dev_dependencies:
   flutter_test:
