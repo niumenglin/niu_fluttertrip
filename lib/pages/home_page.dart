@@ -23,7 +23,8 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin {
   final List _imageUrls = [
     'https://th.bing.com/th/id/OIP.Qjc-yQWR7Jm4YidbinBGpwHaDH?pid=ImgDet&rs=1',
     'https://th.bing.com/th/id/R.1f7bd7261b0afe549b7d9c0cb14d70f2?rik=u8LaSmLb94pRmQ&pid=ImgRaw&r=0&sres=1&sresct=1',
@@ -35,6 +36,9 @@ class _HomePageState extends State<HomePage> {
   GridNavModel? gridNavModel;
   List<CommonModel> subNavList = [];
   SalesBoxModel? salesBoxModel;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -59,6 +63,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print('首页----build');
     return Scaffold(
       backgroundColor: const Color(0xfff2f2f2),
       body: Stack(
