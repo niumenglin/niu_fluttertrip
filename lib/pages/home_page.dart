@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:niu_fluttertrip/dao/home_dao.dart';
 import 'package:niu_fluttertrip/model/common_model.dart';
+import 'package:niu_fluttertrip/model/gird_nav_model.dart';
 import 'package:niu_fluttertrip/model/home_model.dart';
 import 'package:niu_fluttertrip/test/test_page.dart';
+import 'package:niu_fluttertrip/widgets/grid_nav.dart';
 import 'package:niu_fluttertrip/widgets/local_nav.dart';
 
 ///首页
@@ -25,6 +27,7 @@ class _HomePageState extends State<HomePage> {
   ];
   double _appBarAlpha = 0;
   List<CommonModel> localNavList = [];
+  GridNavModel? gridNavModel;
 
   @override
   void initState() {
@@ -37,6 +40,7 @@ class _HomePageState extends State<HomePage> {
       HomeModel? model = await HomeDao.fetch();
       setState(() {
         localNavList = model?.localNavList ?? [];
+        gridNavModel = model!.gridNav;
       });
     } catch (e) {
       print(e);
@@ -67,6 +71,12 @@ class _HomePageState extends State<HomePage> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(7, 4, 7, 4),
                       child: LocalNav(localNavList: localNavList),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(7, 0, 7, 4),
+                      child: GridNav(
+                        gridNavModel: gridNavModel,
+                      ),
                     ),
                     SizedBox(
                       height: 800,
