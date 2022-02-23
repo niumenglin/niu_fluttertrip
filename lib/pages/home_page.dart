@@ -5,9 +5,11 @@ import 'package:niu_fluttertrip/dao/home_dao.dart';
 import 'package:niu_fluttertrip/model/common_model.dart';
 import 'package:niu_fluttertrip/model/gird_nav_model.dart';
 import 'package:niu_fluttertrip/model/home_model.dart';
+import 'package:niu_fluttertrip/model/sales_box_model.dart';
 import 'package:niu_fluttertrip/test/test_page.dart';
 import 'package:niu_fluttertrip/widgets/grid_nav.dart';
 import 'package:niu_fluttertrip/widgets/local_nav.dart';
+import 'package:niu_fluttertrip/widgets/sales_box.dart';
 import 'package:niu_fluttertrip/widgets/sub_nav.dart';
 
 ///首页
@@ -30,6 +32,7 @@ class _HomePageState extends State<HomePage> {
   List<CommonModel> localNavList = [];
   GridNavModel? gridNavModel;
   List<CommonModel> subNavList = [];
+  SalesBoxModel? salesBoxModel;
 
   @override
   void initState() {
@@ -44,6 +47,7 @@ class _HomePageState extends State<HomePage> {
         localNavList = model?.localNavList ?? [];
         gridNavModel = model!.gridNav;
         subNavList = model.subNavList ?? [];
+        salesBoxModel = model.salesBox;
       });
     } catch (e) {
       print(e);
@@ -85,6 +89,12 @@ class _HomePageState extends State<HomePage> {
                       padding: const EdgeInsets.fromLTRB(7, 0, 7, 4),
                       child: SubNav(
                         subNavList: subNavList,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(7, 0, 7, 4),
+                      child: SalesBox(
+                        salesBox: salesBoxModel,
                       ),
                     ),
                     SizedBox(
