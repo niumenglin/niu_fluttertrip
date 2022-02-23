@@ -11,6 +11,7 @@ import 'package:niu_fluttertrip/widgets/grid_nav.dart';
 import 'package:niu_fluttertrip/widgets/local_nav.dart';
 import 'package:niu_fluttertrip/widgets/sales_box.dart';
 import 'package:niu_fluttertrip/widgets/sub_nav.dart';
+import 'package:niu_fluttertrip/widgets/webview.dart';
 
 ///首页
 const APPBAR_SCROLL_OFFSET = 100;
@@ -29,6 +30,7 @@ class _HomePageState extends State<HomePage> {
     'https://th.bing.com/th/id/OIP.P2fBbJvuWdWPkRL-vVxhDAHaDJ?pid=ImgDet&rs=1',
   ];
   double _appBarAlpha = 0;
+  List<CommonModel> bannerList = [];
   List<CommonModel> localNavList = [];
   GridNavModel? gridNavModel;
   List<CommonModel> subNavList = [];
@@ -44,6 +46,7 @@ class _HomePageState extends State<HomePage> {
     try {
       HomeModel? model = await HomeDao.fetch();
       setState(() {
+        bannerList = model?.bannerList ?? [];
         localNavList = model?.localNavList ?? [];
         gridNavModel = model!.gridNav;
         subNavList = model.subNavList ?? [];
@@ -140,11 +143,19 @@ class _HomePageState extends State<HomePage> {
     return SizedBox(
       height: 160,
       child: Swiper(
-        itemCount: _imageUrls.length,
+        itemCount: bannerList.length,
         autoplay: true,
+        onTap: (int index) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => WebView(
+                        url: bannerList[index].url!,
+                      )));
+        },
         itemBuilder: (BuildContext context, int index) {
           return Image.network(
-            _imageUrls[index],
+            bannerList[index].icon!,
             fit: BoxFit.fill,
           );
         },

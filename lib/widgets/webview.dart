@@ -38,6 +38,9 @@ class WebView extends StatefulWidget {
 class _WebViewState extends State<WebView> {
   late WebViewController _controller;
   bool exiting = false;
+
+  String _title = '';
+
   @override
   void initState() {
     super.initState();
@@ -98,6 +101,7 @@ class _WebViewState extends State<WebView> {
             },
             onPageFinished: (String url) {
               print('Page finished loading: $url');
+              _getTitle();
             },
 
             gestureNavigationEnabled: true,
@@ -118,7 +122,7 @@ class _WebViewState extends State<WebView> {
     }
     return Container(
       color: backgroundColor,
-      padding: EdgeInsets.fromLTRB(0, 40, 0, 10),
+      padding: const EdgeInsets.fromLTRB(0, 40, 0, 10),
       child: FractionallySizedBox(
         widthFactor: 1,
         child: Stack(
@@ -141,7 +145,7 @@ class _WebViewState extends State<WebView> {
               right: 0,
               child: Center(
                 child: Text(
-                  widget.title ?? '',
+                  widget.title ?? _title,
                   style: TextStyle(color: backButtonColor, fontSize: 20),
                 ),
               ),
@@ -150,6 +154,18 @@ class _WebViewState extends State<WebView> {
         ),
       ),
     );
+  }
+
+  _getTitle() async {
+    await _controller.getTitle().then((value) {
+      setState(() {
+        _title = value!;
+        if (_title.length > 10) {
+          _title = '${_title.substring(0, 10)}...';
+        }
+      });
+    });
+    print('网页标题名称------$_title');
   }
 
   @override
