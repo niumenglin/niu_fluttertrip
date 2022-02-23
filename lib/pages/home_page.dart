@@ -8,6 +8,7 @@ import 'package:niu_fluttertrip/model/home_model.dart';
 import 'package:niu_fluttertrip/model/sales_box_model.dart';
 import 'package:niu_fluttertrip/test/test_page.dart';
 import 'package:niu_fluttertrip/widgets/grid_nav.dart';
+import 'package:niu_fluttertrip/widgets/loading_container.dart';
 import 'package:niu_fluttertrip/widgets/local_nav.dart';
 import 'package:niu_fluttertrip/widgets/sales_box.dart';
 import 'package:niu_fluttertrip/widgets/sub_nav.dart';
@@ -36,6 +37,7 @@ class _HomePageState extends State<HomePage>
   GridNavModel? gridNavModel;
   List<CommonModel> subNavList = [];
   SalesBoxModel? salesBoxModel;
+  bool _loading = true; //加载状态，默认初始化时=true 即加载中
 
   @override
   bool get wantKeepAlive => true;
@@ -55,9 +57,13 @@ class _HomePageState extends State<HomePage>
         gridNavModel = model!.gridNav;
         subNavList = model.subNavList ?? [];
         salesBoxModel = model.salesBox;
+        _loading = false;
       });
     } catch (e) {
       print(e);
+      setState(() {
+        _loading = false;
+      });
     }
   }
 
@@ -66,64 +72,67 @@ class _HomePageState extends State<HomePage>
     print('首页----build');
     return Scaffold(
       backgroundColor: const Color(0xfff2f2f2),
-      body: Stack(
-        children: [
-          MediaQuery.removePadding(
-              removeTop: true, //移除ListView距离顶部的边距Padding
-              context: context,
-              child: NotificationListener(
-                onNotification: (scrollNotification) {
-                  if (scrollNotification is ScrollUpdateNotification &&
-                      scrollNotification.depth == 0) {
-                    //滚动且是列表滚动的时候.  scrollNotification.depth深度设置为0.表示只监测外层的Widget-ListView
-                    _onScroll(scrollNotification.metrics.pixels);
-                  }
-                  return true;
-                },
-                child: ListView(
-                  children: [
-                    _buildBanner(),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(7, 4, 7, 4),
-                      child: LocalNav(localNavList: localNavList),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(7, 0, 7, 4),
-                      child: GridNav(
-                        gridNavModel: gridNavModel,
+      body: LoadingContainer(
+        isLoading: _loading,
+        child: Stack(
+          children: [
+            MediaQuery.removePadding(
+                removeTop: true, //移除ListView距离顶部的边距Padding
+                context: context,
+                child: NotificationListener(
+                  onNotification: (scrollNotification) {
+                    if (scrollNotification is ScrollUpdateNotification &&
+                        scrollNotification.depth == 0) {
+                      //滚动且是列表滚动的时候.  scrollNotification.depth深度设置为0.表示只监测外层的Widget-ListView
+                      _onScroll(scrollNotification.metrics.pixels);
+                    }
+                    return true;
+                  },
+                  child: ListView(
+                    children: [
+                      _buildBanner(),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(7, 4, 7, 4),
+                        child: LocalNav(localNavList: localNavList),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(7, 0, 7, 4),
-                      child: SubNav(
-                        subNavList: subNavList,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(7, 0, 7, 4),
-                      child: SalesBox(
-                        salesBox: salesBoxModel,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 800,
-                      child: ListTile(
-                        title: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const TestPage()));
-                          },
-                          child: const Text('测试页面'),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(7, 0, 7, 4),
+                        child: GridNav(
+                          gridNavModel: gridNavModel,
                         ),
                       ),
-                    )
-                  ],
-                ),
-              )),
-          _buildMyAppBar(),
-        ],
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(7, 0, 7, 4),
+                        child: SubNav(
+                          subNavList: subNavList,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(7, 0, 7, 4),
+                        child: SalesBox(
+                          salesBox: salesBoxModel,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 800,
+                        child: ListTile(
+                          title: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const TestPage()));
+                            },
+                            child: const Text('测试页面'),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                )),
+            _buildMyAppBar(),
+          ],
+        ),
       ),
     );
   }
