@@ -77,9 +77,9 @@ class _HomePageState extends State<HomePage>
         child: Stack(
           children: [
             MediaQuery.removePadding(
-                removeTop: true, //移除ListView距离顶部的边距Padding
-                context: context,
-                child: RefreshIndicator(
+              removeTop: true, //移除ListView距离顶部的边距Padding
+              context: context,
+              child: RefreshIndicator(
                   onRefresh: _handleRefresh,
                   child: NotificationListener(
                     onNotification: (scrollNotification) {
@@ -90,74 +90,66 @@ class _HomePageState extends State<HomePage>
                       }
                       return false;
                     },
-                    child: ListView(
-                      children: [
-                        _buildBanner(),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(7, 4, 7, 4),
-                          child: LocalNav(localNavList: localNavList),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(7, 0, 7, 4),
-                          child: GridNav(
-                            gridNavModel: gridNavModel,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(7, 0, 7, 4),
-                          child: SubNav(
-                            subNavList: subNavList,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(7, 0, 7, 4),
-                          child: SalesBox(
-                            salesBox: salesBoxModel,
-                          ),
-                        ),
-                        // SizedBox(
-                        //   height: 800,
-                        //   child: ListTile(
-                        //     title: InkWell(
-                        //       onTap: () {
-                        //         Navigator.push(
-                        //             context,
-                        //             MaterialPageRoute(
-                        //                 builder: (context) =>
-                        //                     const TestPage()));
-                        //       },
-                        //       child: const Text('测试页面'),
-                        //     ),
-                        //   ),
-                        // )
-                      ],
-                    ),
-                  ),
-                )),
-            _buildMyAppBar(),
+                    child: _listView,
+                  )),
+            ),
+            _appBar,
           ],
         ),
       ),
     );
   }
 
-  ///offset： 滚动的距离
-  _onScroll(offset) {
-    print(offset);
-    double alpha = offset / APPBAR_SCROLL_OFFSET;
-    if (alpha < 0) {
-      alpha = 0;
-    } else if (alpha > 1) {
-      alpha = 1;
-    }
-    setState(() {
-      _appBarAlpha = alpha;
-    });
-    print('不透明度：$alpha');
+  ///构建ListView
+  Widget get _listView {
+    return ListView(
+      children: [
+        _banner,
+        Padding(
+          padding: const EdgeInsets.fromLTRB(7, 4, 7, 4),
+          child: LocalNav(localNavList: localNavList),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(7, 0, 7, 4),
+          child: GridNav(
+            gridNavModel: gridNavModel,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(7, 0, 7, 4),
+          child: SubNav(
+            subNavList: subNavList,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(7, 0, 7, 4),
+          child: SalesBox(
+            salesBox: salesBoxModel,
+          ),
+        ),
+      ],
+    );
   }
 
-  ///构建轮播Widget
-  Widget _buildBanner() {
+  ///构建自定义AppBar
+  Widget get _appBar {
+    return Opacity(
+      opacity: _appBarAlpha, //不透明度
+      child: Container(
+        height: 80,
+        decoration: const BoxDecoration(color: Colors.white),
+        child: const Center(
+          child: Padding(
+            padding: EdgeInsets.only(top: 20),
+            child: Text('首页'),
+          ),
+        ),
+      ),
+    );
+  }
+
+  ///构建Banner轮播图
+  Widget get _banner {
     return SizedBox(
       height: 160,
       child: Swiper(
@@ -190,20 +182,18 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  ///构建自定义AppBarWidget
-  Widget _buildMyAppBar() {
-    return Opacity(
-      opacity: _appBarAlpha, //不透明度
-      child: Container(
-        height: 80,
-        decoration: const BoxDecoration(color: Colors.white),
-        child: const Center(
-          child: Padding(
-            padding: EdgeInsets.only(top: 20),
-            child: Text('首页'),
-          ),
-        ),
-      ),
-    );
+  ///offset： 滚动的距离
+  _onScroll(offset) {
+    print(offset);
+    double alpha = offset / APPBAR_SCROLL_OFFSET;
+    if (alpha < 0) {
+      alpha = 0;
+    } else if (alpha > 1) {
+      alpha = 1;
+    }
+    setState(() {
+      _appBarAlpha = alpha;
+    });
+    print('不透明度：$alpha');
   }
 }
