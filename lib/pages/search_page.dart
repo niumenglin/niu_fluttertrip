@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:niu_fluttertrip/widgets/search_bar.dart';
 
 ///搜索
 class SearchPage extends StatefulWidget {
@@ -13,10 +14,24 @@ class _SearchPageState extends State<SearchPage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
-      body: Center(
-        child: Text('搜索'),
+      appBar: AppBar(),
+      body: Column(
+        children: [
+          SearchBar(
+            hideLeft: true,
+            defaultText: '哈哈',
+            hint: '请在此输入关键词~',
+            leftButtonClick: () {
+              Navigator.pop(context);
+            },
+            onChanged: _onTextChange,
+          )
+        ],
       ),
     );
   }
+
+  _onTextChange(text) {}
 }

@@ -10,11 +10,13 @@ import 'package:niu_fluttertrip/widgets/grid_nav.dart';
 import 'package:niu_fluttertrip/widgets/loading_container.dart';
 import 'package:niu_fluttertrip/widgets/local_nav.dart';
 import 'package:niu_fluttertrip/widgets/sales_box.dart';
+import 'package:niu_fluttertrip/widgets/search_bar.dart';
 import 'package:niu_fluttertrip/widgets/sub_nav.dart';
 import 'package:niu_fluttertrip/widgets/webview.dart';
 
 ///首页
 const APPBAR_SCROLL_OFFSET = 100;
+const SEARCH_BAR_DEFAULT_TEXT = '网红打卡地 景点 酒店 美食';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -69,6 +71,7 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     print('首页----build');
     return Scaffold(
       backgroundColor: const Color(0xfff2f2f2),
@@ -133,18 +136,51 @@ class _HomePageState extends State<HomePage>
 
   ///构建自定义AppBar
   Widget get _appBar {
-    return Opacity(
-      opacity: _appBarAlpha, //不透明度
-      child: Container(
-        height: 80,
-        decoration: const BoxDecoration(color: Colors.white),
-        child: const Center(
-          child: Padding(
-            padding: EdgeInsets.only(top: 20),
-            child: Text('首页'),
+    // return Opacity(
+    //   opacity: _appBarAlpha, //不透明度
+    //   child: Container(
+    //     height: 80,
+    //     decoration: const BoxDecoration(color: Colors.white),
+    //     child: const Center(
+    //       child: Padding(
+    //         padding: EdgeInsets.only(top: 20),
+    //         child: Text('首页'),
+    //       ),
+    //     ),
+    //   ),
+    // );
+    return Column(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+            colors: [Color(0x66000000), Colors.transparent],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          )),
+          child: Container(
+            padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+            height: 80.0,
+            decoration: BoxDecoration(
+              color: Color.fromARGB(_appBarAlpha.toInt() * 255, 255, 255, 255),
+            ),
+            child: SearchBar(
+              searchBarType: _appBarAlpha > 0.2
+                  ? SearchBarType.homeLight
+                  : SearchBarType.home,
+              inputBoxClick: _jumpToSearch,
+              speakButtonClick: _jumpToSpeak,
+              defaultText: SEARCH_BAR_DEFAULT_TEXT,
+              leftButtonClick: () {},
+            ),
           ),
         ),
-      ),
+        Container(
+          height: _appBarAlpha > 0.2 ? 05 : 0,
+          decoration: BoxDecoration(
+              boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 0.5)]),
+        )
+      ],
     );
   }
 
@@ -196,4 +232,10 @@ class _HomePageState extends State<HomePage>
     });
     print('不透明度：$alpha');
   }
+
+  //跳转至搜索页
+  _jumpToSearch() {}
+
+  //跳转语音页
+  _jumpToSpeak() {}
 }
