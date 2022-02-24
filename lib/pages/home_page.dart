@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_splash_screen/flutter_splash_screen.dart';
 
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:niu_fluttertrip/dao/home_dao.dart';
@@ -47,6 +48,9 @@ class _HomePageState extends State<HomePage>
   void initState() {
     super.initState();
     _handleRefresh();
+    Future.delayed(Duration(microseconds: 200), () {
+      FlutterSplashScreen.hide(); //关闭Native启动屏
+    });
   }
 
   Future<Null> _handleRefresh() async {

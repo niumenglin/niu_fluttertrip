@@ -83,6 +83,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.4"
+  flutter_splash_screen:
+    dependency: "direct main"
+    description:
+      name: flutter_splash_screen
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.3.0"
   flutter_swiper_null_safety:
     dependency: "direct main"
     description:
