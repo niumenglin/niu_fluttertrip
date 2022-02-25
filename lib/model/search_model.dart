@@ -1,5 +1,6 @@
 ///搜索模型
 class SearchModel {
+  String? keyword;
   final List<SearchItem>? data;
 
   SearchModel({this.data});

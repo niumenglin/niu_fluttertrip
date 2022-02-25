@@ -20,4 +20,19 @@ class SearchDao {
       throw Exception('Fail to search');
     }
   }
+
+  static Future<SearchModel?> fetch2(String url, String text) async {
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      //success
+      Utf8Decoder utf8decoder = const Utf8Decoder(); //fix 中文乱码
+      var result = json.decode(utf8decoder.convert(response.bodyBytes));
+      //只有当前输入的内容和服务器端返回的内容一致时才渲染
+      SearchModel model = SearchModel.fromJson(result);
+      model.keyword = text;
+      return model;
+    } else {
+      throw Exception('Fail to search');
+    }
+  }
 }
