@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:niu_fluttertrip/dao/search_dao.dart';
 import 'package:niu_fluttertrip/widgets/search_bar.dart';
 
 ///搜索
 class SearchPage extends StatefulWidget {
+  const SearchPage({Key? key}) : super(key: key);
+
   @override
   _SearchPageState createState() => _SearchPageState();
 }
@@ -11,6 +14,8 @@ class _SearchPageState extends State<SearchPage>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
+
+  String showText = '';
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +31,16 @@ class _SearchPageState extends State<SearchPage>
             leftButtonClick: () {
               Navigator.pop(context);
             },
+            rightButtonClick: () {
+              SearchDao.fetch('长城').then((value) {
+                setState(() {
+                  showText = value!.data![0].url!;
+                });
+              });
+            },
             onChanged: _onTextChange,
-          )
+          ),
+          Text(showText),
         ],
       ),
     );
