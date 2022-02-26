@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:niu_fluttertrip/test/test_page.dart';
+import 'package:niu_fluttertrip/widgets/webview.dart';
 
 ///我的
+const String _url = 'https://m.ctrip.com/webapp/myctrip/';
+
 class MyPage extends StatefulWidget {
   @override
   _MyPageState createState() => _MyPageState();
@@ -14,13 +16,11 @@ class _MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => TestPage()));
-            },
-            child: Text('我的')),
+      body: WebView(
+        url: _url,
+        hideAppBar: true,
+        backForbid: true,
+        statusBarColor: '4c5bca',
       ),
     );
   }
