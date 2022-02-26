@@ -5,6 +5,22 @@ import 'package:niu_fluttertrip/widgets/search_bar.dart';
 import 'package:niu_fluttertrip/widgets/webview.dart';
 
 ///搜索
+const TYPES = [
+  'channelgroup',
+  'channelgs',
+  'channelplane',
+  'channeltrain',
+  'cruise',
+  'district'
+      'food',
+  'hotel',
+  'huodong',
+  'shop',
+  'sight',
+  'ticket',
+  'travelgroup'
+];
+
 class SearchPage extends StatefulWidget {
   final bool hideLeft;
   final String? searchUrl;
@@ -129,16 +145,23 @@ class _SearchPageState extends State<SearchPage>
             border: Border(bottom: BorderSide(width: 0.3, color: Colors.grey))),
         child: Row(
           children: [
+            Container(
+              margin: EdgeInsets.all(1),
+              child: Image(
+                  width: 26,
+                  height: 26,
+                  image: AssetImage(_typeImage(item.type))),
+            ),
             Column(
               children: [
                 Container(
                   width: 300,
-                  child: Text(
-                      '${item.word ?? ''} ${item.districtname ?? ''} ${item.zonename ?? ''}'),
+                  child: _title(item),
                 ),
                 Container(
                   width: 300,
-                  child: Text('${item.price ?? ''} ${item.type ?? ''}'),
+                  margin: EdgeInsets.only(top: 5),
+                  child: _subTitle(item),
                 )
               ],
             )
@@ -146,5 +169,62 @@ class _SearchPageState extends State<SearchPage>
         ),
       ),
     );
+  }
+
+  ///动态Icon
+  _typeImage(String? type) {
+    if (type == null) return 'assets/images/type_travelgroup.png';
+    String path = 'travelgroup';
+    for (final val in TYPES) {
+      if (type.contains(val)) {
+        path = val;
+        break;
+      }
+    }
+    return 'assets/images/type_$path.png';
+  }
+
+  _title(SearchItem item) {
+    List<TextSpan> spans = [];
+    spans
+        .addAll(_keywordTextSpans(item.word ?? '', searchModel?.keyword ?? ''));
+    spans.add(TextSpan(
+        text: ' ' + (item.districtname ?? '') + ' ' + (item.zonename ?? ''),
+        style: TextStyle(fontSize: 16, color: Colors.grey)));
+    return RichText(text: TextSpan(children: spans));
+  }
+
+  _subTitle(SearchItem item) {
+    return RichText(
+        text: TextSpan(children: [
+      TextSpan(
+          text: item.price ?? '',
+          style: TextStyle(fontSize: 16, color: Colors.orange)),
+      TextSpan(
+          text: '  ' + (item.star ?? ''),
+          style: TextStyle(fontSize: 12, color: Colors.grey))
+    ]));
+  }
+
+  ///关键字高亮处理
+  _keywordTextSpans(String word, String keyword) {
+    List<TextSpan> spans = [];
+    if (word.isEmpty) return spans;
+    List<String> arr = word.split(keyword);
+    TextStyle normalStyle =
+        const TextStyle(fontSize: 16, color: Colors.black87);
+    TextStyle keywordStyle =
+        const TextStyle(fontSize: 16, color: Colors.orange);
+    // 'wordwoc'.split('w')->[,ord,oc]
+    for (int i = 0; i < arr.length; i++) {
+      if ((i + 1) % 2 == 0) {
+        spans.add(TextSpan(text: keyword, style: keywordStyle));
+      }
+      String val = arr[i];
+      if (val.isNotEmpty) {
+        spans.add(TextSpan(text: val, style: normalStyle));
+      }
+    }
+    return spans;
   }
 }
