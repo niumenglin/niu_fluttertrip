@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:niu_fluttertrip/test/test_count.dart';
 import 'package:niu_fluttertrip/test/test_futurebuilder.dart';
 import 'package:niu_fluttertrip/test/test_http.dart';
+import 'package:niu_fluttertrip/test/test_url_launcher.dart';
 
 /// @author: niumenglin
 /// @time: 2022/2/21-5:19 下午
@@ -64,6 +65,19 @@ class _TestPageState extends State<TestPage> {
               },
               child: Text(
                 '基于shared_preferences实现计数器 >',
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => TestUrlLauncher()));
+              },
+              child: Text(
+                'url_launcher >',
                 style: TextStyle(fontSize: 16),
               ),
             ),
