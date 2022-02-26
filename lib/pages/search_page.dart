@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:niu_fluttertrip/dao/search_dao.dart';
 import 'package:niu_fluttertrip/model/search_model.dart';
 import 'package:niu_fluttertrip/widgets/search_bar.dart';
+import 'package:niu_fluttertrip/widgets/webview.dart';
 
 ///搜索
 class SearchPage extends StatefulWidget {
@@ -112,6 +113,38 @@ class _SearchPageState extends State<SearchPage>
       return null;
     }
     SearchItem item = searchModel!.data![position];
-    return Text(item.word ?? '');
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => WebView(
+                      url: item.url,
+                      title: '详情',
+                    )));
+      },
+      child: Container(
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+            border: Border(bottom: BorderSide(width: 0.3, color: Colors.grey))),
+        child: Row(
+          children: [
+            Column(
+              children: [
+                Container(
+                  width: 300,
+                  child: Text(
+                      '${item.word ?? ''} ${item.districtname ?? ''} ${item.zonename ?? ''}'),
+                ),
+                Container(
+                  width: 300,
+                  child: Text('${item.price ?? ''} ${item.type ?? ''}'),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

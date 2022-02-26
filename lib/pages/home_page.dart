@@ -7,6 +7,7 @@ import 'package:niu_fluttertrip/model/common_model.dart';
 import 'package:niu_fluttertrip/model/gird_nav_model.dart';
 import 'package:niu_fluttertrip/model/home_model.dart';
 import 'package:niu_fluttertrip/model/sales_box_model.dart';
+import 'package:niu_fluttertrip/pages/search_page.dart';
 import 'package:niu_fluttertrip/widgets/grid_nav.dart';
 import 'package:niu_fluttertrip/widgets/loading_container.dart';
 import 'package:niu_fluttertrip/widgets/local_nav.dart';
@@ -238,7 +239,14 @@ class _HomePageState extends State<HomePage>
   }
 
   //跳转至搜索页
-  _jumpToSearch() {}
+  _jumpToSearch() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return SearchPage(
+        hideLeft: false,
+        hint: SEARCH_BAR_DEFAULT_TEXT,
+      );
+    }));
+  }
 
   //跳转语音页
   _jumpToSpeak() {}
