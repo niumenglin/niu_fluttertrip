@@ -20,6 +20,7 @@ class _TabNavigatorState extends State<TabNavigator> {
     return Scaffold(
       body: PageView(
         controller: _controller,
+        physics: const NeverScrollableScrollPhysics(), //禁止左右滑动
         onPageChanged: (int index) {
           print('当前页面下标是：$index');
           setState(() {
