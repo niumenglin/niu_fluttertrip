@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:niu_fluttertrip/dao/travel_tab_dao.dart';
 import 'package:niu_fluttertrip/model/travel_tab_model.dart';
+import 'package:niu_fluttertrip/pages/travel_tab_page.dart';
 
 ///旅拍
 class TravelPage extends StatefulWidget {
@@ -70,7 +71,10 @@ class _TravelPageState extends State<TravelPage>
             child: TabBarView(
                 controller: _controller,
                 children: tabs.map((TravelTab tab) {
-                  return Text(tab.groupChannelCode ?? '');
+                  return TravelTabPage(
+                    travelUrl: travelTabModel!.url,
+                    groupChannelCode: tab.groupChannelCode,
+                  );
                 }).toList()),
           ),
         ],

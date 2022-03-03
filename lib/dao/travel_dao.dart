@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:niu_fluttertrip/model/travel_tab_model.dart';
-
-const TRAVEL_URL = 'http://www.devio.org/io/flutter_app/json/travel_page.json';
+import 'package:niu_fluttertrip/model/travel_model.dart';
 
 ///旅拍页接口
 var Params = {
@@ -25,22 +23,21 @@ var Params = {
 };
 
 class TravelDao {
-  static Future<TravelTabModel?> fetch(
+  static Future<TravelItemModel?> fetch(
       String url, String groupChannelCode, int pageIndex, int pageSize) async {
     //动态修改固定参数
-    Map paramsMap = Params['pagePara'] as Map;
-    paramsMap['groupChannelCode'] = groupChannelCode;
+    Map paramsMap = Params['pagePara'] as Map<String, dynamic>;
     paramsMap['pageIndex'] = pageIndex;
     paramsMap['pageSize'] = pageSize;
-    final response =
-        await http.post(Uri.parse(TRAVEL_URL), body: jsonEncode(Params));
+    Params['groupChannelCode'] = groupChannelCode;
+    final response = await http.post(Uri.parse(url), body: jsonEncode(Params));
     if (response.statusCode == 200) {
       //success
       Utf8Decoder utf8decoder = const Utf8Decoder(); //fix 中文乱码
       var result = json.decode(utf8decoder.convert(response.bodyBytes));
-      return TravelTabModel.fromJson(result);
+      return TravelItemModel.fromJson(result);
     } else {
-      throw Exception('Fail to load travel_page.json');
+      throw Exception('Fail to load travel');
     }
   }
 }
