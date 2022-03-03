@@ -26,6 +26,7 @@ class _TravelTabPageState extends State<TravelTabPage>
   List<TravelItem> travelItems = [];
   int pageIndex = 1;
   bool _loading = true;
+  ScrollController _scrollController = ScrollController();
 
   // true=当前页面保活（with AutomaticKeepAliveClientMixin）
   @override
@@ -35,16 +36,30 @@ class _TravelTabPageState extends State<TravelTabPage>
   void initState() {
     super.initState();
     _loadData();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        _loadData(loadMore: true);
+      }
+    });
   }
 
-  _loadData() {
+  _loadData({loadMore = false}) {
+    if (loadMore) {
+      //上拉加载更多
+      pageIndex++;
+    } else {
+      //下拉刷新
+      pageIndex = 1;
+    }
+
     TravelDao.fetch(widget.travelUrl ?? TRAVEL_URL,
             widget.groupChannelCode ?? '', pageIndex, PAGE_SIZE)
         .then((TravelItemModel? model) {
       _loading = false;
       setState(() {
         List<TravelItem> items = _filterItems(model!.resultList);
-        if (travelItems.isEmpty) {
+        if (loadMore) {
           travelItems.addAll(items);
         } else {
           travelItems = items;
@@ -59,6 +74,7 @@ class _TravelTabPageState extends State<TravelTabPage>
   @override
   void dispose() {
     super.dispose();
+    _scrollController.dispose();
   }
 
   @override
@@ -66,24 +82,28 @@ class _TravelTabPageState extends State<TravelTabPage>
     return Scaffold(
       body: LoadingContainer(
           isLoading: _loading,
-          child: MediaQuery.removePadding(
-              removeTop: true,
-              context: context,
-              child: MasonryGridView.count(
-                itemCount: travelItems.length,
-                // the number of columns 列数
-                crossAxisCount: 2,
-                // // vertical gap between two items
-                // mainAxisSpacing: 4,
-                // // horizontal gap between two items
-                // crossAxisSpacing: 4,
-                itemBuilder: (context, index) {
-                  return ItemTravel(
-                    index: index,
-                    item: travelItems[index],
-                  );
-                },
-              ))),
+          child: RefreshIndicator(
+            onRefresh: _handleRefresh,
+            child: MediaQuery.removePadding(
+                removeTop: true,
+                context: context,
+                child: MasonryGridView.count(
+                  controller: _scrollController,
+                  itemCount: travelItems.length,
+                  // the number of columns 列数
+                  crossAxisCount: 2,
+                  // // vertical gap between two items
+                  // mainAxisSpacing: 4,
+                  // // horizontal gap between two items
+                  // crossAxisSpacing: 4,
+                  itemBuilder: (context, index) {
+                    return ItemTravel(
+                      index: index,
+                      item: travelItems[index],
+                    );
+                  },
+                )),
+          )),
     );
   }
 
@@ -99,6 +119,10 @@ class _TravelTabPageState extends State<TravelTabPage>
       }
     }
     return filterItems;
+  }
+
+  Future<void> _handleRefresh() async {
+    _loadData();
   }
 }
 
