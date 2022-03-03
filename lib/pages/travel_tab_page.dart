@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:niu_fluttertrip/dao/travel_dao.dart';
 import 'package:niu_fluttertrip/model/travel_model.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:niu_fluttertrip/widgets/loading_container.dart';
 import 'package:niu_fluttertrip/widgets/webview.dart';
 
 ///旅拍Tab
@@ -24,6 +25,7 @@ class _TravelTabPageState extends State<TravelTabPage>
     with AutomaticKeepAliveClientMixin {
   List<TravelItem> travelItems = [];
   int pageIndex = 1;
+  bool _loading = true;
 
   // true=当前页面保活（with AutomaticKeepAliveClientMixin）
   @override
@@ -39,6 +41,7 @@ class _TravelTabPageState extends State<TravelTabPage>
     TravelDao.fetch(widget.travelUrl ?? TRAVEL_URL,
             widget.groupChannelCode ?? '', pageIndex, PAGE_SIZE)
         .then((TravelItemModel? model) {
+      _loading = false;
       setState(() {
         List<TravelItem> items = _filterItems(model!.resultList);
         if (travelItems.isEmpty) {
@@ -48,6 +51,7 @@ class _TravelTabPageState extends State<TravelTabPage>
         }
       });
     }).catchError((e) {
+      _loading = false;
       print(e);
     });
   }
@@ -60,24 +64,26 @@ class _TravelTabPageState extends State<TravelTabPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: MediaQuery.removePadding(
-          removeTop: true,
-          context: context,
-          child: MasonryGridView.count(
-            itemCount: travelItems.length,
-            // the number of columns 列数
-            crossAxisCount: 2,
-            // // vertical gap between two items
-            // mainAxisSpacing: 4,
-            // // horizontal gap between two items
-            // crossAxisSpacing: 4,
-            itemBuilder: (context, index) {
-              return ItemTravel(
-                index: index,
-                item: travelItems[index],
-              );
-            },
-          )),
+      body: LoadingContainer(
+          isLoading: _loading,
+          child: MediaQuery.removePadding(
+              removeTop: true,
+              context: context,
+              child: MasonryGridView.count(
+                itemCount: travelItems.length,
+                // the number of columns 列数
+                crossAxisCount: 2,
+                // // vertical gap between two items
+                // mainAxisSpacing: 4,
+                // // horizontal gap between two items
+                // crossAxisSpacing: 4,
+                itemBuilder: (context, index) {
+                  return ItemTravel(
+                    index: index,
+                    item: travelItems[index],
+                  );
+                },
+              ))),
     );
   }
 
