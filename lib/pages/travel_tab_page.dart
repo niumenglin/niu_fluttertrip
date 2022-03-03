@@ -60,21 +60,24 @@ class _TravelTabPageState extends State<TravelTabPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: MasonryGridView.count(
-        itemCount: travelItems.length,
-        // the number of columns 列数
-        crossAxisCount: 2,
-        // // vertical gap between two items
-        // mainAxisSpacing: 4,
-        // // horizontal gap between two items
-        // crossAxisSpacing: 4,
-        itemBuilder: (context, index) {
-          return ItemTravel(
-            index: index,
-            item: travelItems[index],
-          );
-        },
-      ),
+      body: MediaQuery.removePadding(
+          removeTop: true,
+          context: context,
+          child: MasonryGridView.count(
+            itemCount: travelItems.length,
+            // the number of columns 列数
+            crossAxisCount: 2,
+            // // vertical gap between two items
+            // mainAxisSpacing: 4,
+            // // horizontal gap between two items
+            // crossAxisSpacing: 4,
+            itemBuilder: (context, index) {
+              return ItemTravel(
+                index: index,
+                item: travelItems[index],
+              );
+            },
+          )),
     );
   }
 
