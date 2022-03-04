@@ -71,10 +71,11 @@ class _TravelTabPageState extends State<TravelTabPage>
     });
   }
 
+  ///在执行super.dispose() 之前 释放资源
   @override
   void dispose() {
-    super.dispose();
     _scrollController.dispose();
+    super.dispose();
   }
 
   @override
