@@ -31,6 +31,20 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      builder: (context, child) => Scaffold(
+        body: GestureDetector(
+          onTap: () {
+            FocusScopeNode currentFocus = FocusScope.of(context);
+            if (!currentFocus.hasPrimaryFocus &&
+                currentFocus.focusedChild != null) {
+              FocusManager.instance.primaryFocus!.unfocus();
+              //也可以使用如下方式隐藏键盘
+              // SystemChannels.textInput.invokeMethod('TextInput.hide');
+            }
+          },
+          child: child,
+        ),
+      ),
       home: TabNavigator(),
     );
   }
