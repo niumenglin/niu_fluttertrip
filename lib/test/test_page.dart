@@ -4,6 +4,7 @@ import 'package:niu_fluttertrip/test/test_full_screen_page.dart';
 import 'package:niu_fluttertrip/test/test_futurebuilder.dart';
 import 'package:niu_fluttertrip/test/test_http.dart';
 import 'package:niu_fluttertrip/test/test_url_launcher.dart';
+import 'package:niu_fluttertrip/utils/navigator_util.dart';
 
 /// @author: niumenglin
 /// @time: 2022/2/21-5:19 下午
@@ -34,8 +35,7 @@ class _TestPageState extends State<TestPage> {
             _item(
                 desc: 'http',
                 onClick: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => TestHttp()));
+                  NavigatorUtil.push(context, TestHttp());
                 }),
             SizedBox(
               height: 30,
@@ -43,10 +43,7 @@ class _TestPageState extends State<TestPage> {
             _item(
                 desc: 'Future与FutureBuilder实用技巧',
                 onClick: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => TestFutureBuilder()));
+                  NavigatorUtil.push(context, TestFutureBuilder());
                 }),
             SizedBox(
               height: 30,
@@ -54,10 +51,7 @@ class _TestPageState extends State<TestPage> {
             _item(
                 desc: '基于shared_preferences实现计数器',
                 onClick: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => TestCountWidget()));
+                  NavigatorUtil.push(context, TestCountWidget());
                 }),
             SizedBox(
               height: 30,
@@ -65,10 +59,7 @@ class _TestPageState extends State<TestPage> {
             _item(
                 desc: 'url_launcher',
                 onClick: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => TestUrlLauncher()));
+                  NavigatorUtil.push(context, TestUrlLauncher());
                 }),
             SizedBox(
               height: 30,
@@ -76,10 +67,7 @@ class _TestPageState extends State<TestPage> {
             _item(
                 desc: 'Flutter全面屏适配',
                 onClick: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => TestFullScreenPage()));
+                  NavigatorUtil.push(context, TestFullScreenPage());
                 }),
           ],
         ),

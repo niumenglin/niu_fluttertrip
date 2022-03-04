@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:niu_fluttertrip/test/test_futurebuilder.dart';
+import 'package:niu_fluttertrip/utils/navigator_util.dart';
 
 /// @author: niumenglin
 /// @time: 2022/2/21-10:46 上午
@@ -55,10 +56,7 @@ class _TestHttpState extends State<TestHttp> {
             ),
             InkWell(
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => TestFutureBuilder()));
+                NavigatorUtil.push(context, TestFutureBuilder());
               },
               child: Text(
                 'Future与FutureBuilder实用技巧',

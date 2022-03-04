@@ -9,6 +9,7 @@ import 'package:niu_fluttertrip/model/home_model.dart';
 import 'package:niu_fluttertrip/model/sales_box_model.dart';
 import 'package:niu_fluttertrip/pages/search_page.dart';
 import 'package:niu_fluttertrip/test/test_page.dart';
+import 'package:niu_fluttertrip/utils/navigator_util.dart';
 import 'package:niu_fluttertrip/widgets/grid_nav.dart';
 import 'package:niu_fluttertrip/widgets/loading_container.dart';
 import 'package:niu_fluttertrip/widgets/local_nav.dart';
@@ -179,8 +180,7 @@ class _HomePageState extends State<HomePage>
               defaultText: SEARCH_BAR_DEFAULT_TEXT,
               leftButtonClick: () {},
               rightButtonClick: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => TestPage()));
+                NavigatorUtil.push(context, TestPage());
               },
             ),
           ),
@@ -202,12 +202,14 @@ class _HomePageState extends State<HomePage>
         itemCount: bannerList.length,
         autoplay: true,
         onTap: (int index) {
-          Navigator.push(
+          CommonModel model = bannerList[index];
+          NavigatorUtil.push(
               context,
-              MaterialPageRoute(
-                  builder: (context) => WebView(
-                        url: bannerList[index].url!,
-                      )));
+              WebView(
+                url: model.url!,
+                title: model.title,
+                hideAppBar: model.hideAppBar,
+              ));
         },
         itemBuilder: (BuildContext context, int index) {
           return Image.network(
@@ -245,12 +247,12 @@ class _HomePageState extends State<HomePage>
 
   //跳转至搜索页
   _jumpToSearch() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return SearchPage(
-        hideLeft: false,
-        hint: SEARCH_BAR_DEFAULT_TEXT,
-      );
-    }));
+    NavigatorUtil.push(
+        context,
+        SearchPage(
+          hideLeft: false,
+          hint: SEARCH_BAR_DEFAULT_TEXT,
+        ));
   }
 
   //跳转语音页

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:niu_fluttertrip/model/common_model.dart';
 import 'package:niu_fluttertrip/model/gird_nav_model.dart';
+import 'package:niu_fluttertrip/utils/navigator_util.dart';
 import 'package:niu_fluttertrip/widgets/webview.dart';
 
 ///网格卡片（酒店、机票、旅游）
@@ -68,15 +69,14 @@ class GridNav extends StatelessWidget {
   _mainItem(BuildContext context, CommonModel model) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
+        NavigatorUtil.push(
             context,
-            MaterialPageRoute(
-                builder: (context) => WebView(
-                      url: model.url,
-                      statusBarColor: model.statusBarColor,
-                      title: model.title,
-                      hideAppBar: model.hideAppBar,
-                    )));
+            WebView(
+              url: model.url,
+              statusBarColor: model.statusBarColor,
+              title: model.title,
+              hideAppBar: model.hideAppBar,
+            ));
       },
       child: _wrapGesture(
           context,
@@ -140,15 +140,14 @@ class GridNav extends StatelessWidget {
   _wrapGesture(BuildContext context, Widget widget, CommonModel model) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
+        NavigatorUtil.push(
             context,
-            MaterialPageRoute(
-                builder: (context) => WebView(
-                      url: model.url,
-                      statusBarColor: model.statusBarColor,
-                      title: model.title,
-                      hideAppBar: model.hideAppBar,
-                    )));
+            WebView(
+              url: model.url,
+              statusBarColor: model.statusBarColor,
+              title: model.title,
+              hideAppBar: model.hideAppBar,
+            ));
       },
       child: widget,
     );

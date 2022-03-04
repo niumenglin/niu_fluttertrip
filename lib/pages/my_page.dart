@@ -15,6 +15,7 @@ class _MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: WebView(
         url: _url,

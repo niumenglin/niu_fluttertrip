@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:niu_fluttertrip/utils/navigator_util.dart';
 import 'package:webview_flutter/platform_interface.dart';
 import 'package:webview_flutter/webview_flutter.dart' as web;
 import 'package:webview_flutter/webview_flutter.dart';
@@ -94,7 +95,7 @@ class _WebViewState extends State<WebView> {
                   //禁止返回，加载当前页面
                   _controller.loadUrl(widget.url!);
                 } else {
-                  Navigator.pop(context);
+                  NavigatorUtil.pop(context);
                   exiting = true;
                 }
               }
@@ -129,7 +130,7 @@ class _WebViewState extends State<WebView> {
           children: [
             GestureDetector(
               onTap: () {
-                Navigator.pop(context);
+                NavigatorUtil.pop(context);
               },
               child: Container(
                 margin: const EdgeInsets.only(left: 10),

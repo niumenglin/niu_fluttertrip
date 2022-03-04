@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:niu_fluttertrip/dao/search_dao.dart';
 import 'package:niu_fluttertrip/model/search_model.dart';
+import 'package:niu_fluttertrip/utils/navigator_util.dart';
 import 'package:niu_fluttertrip/widgets/search_bar.dart';
 import 'package:niu_fluttertrip/widgets/webview.dart';
 
@@ -91,7 +92,7 @@ class _SearchPageState extends State<SearchPage>
               defaultText: widget.keyword ?? '',
               hint: widget.hint ?? '',
               leftButtonClick: () {
-                Navigator.pop(context);
+                NavigatorUtil.pop(context);
               },
               rightButtonClick: () {},
               onChanged: _onTextChange,
@@ -131,13 +132,12 @@ class _SearchPageState extends State<SearchPage>
     SearchItem item = searchModel!.data![position];
     return GestureDetector(
       onTap: () {
-        Navigator.push(
+        NavigatorUtil.push(
             context,
-            MaterialPageRoute(
-                builder: (context) => WebView(
-                      url: item.url,
-                      title: '详情',
-                    )));
+            WebView(
+              url: item.url,
+              title: '详情',
+            ));
       },
       child: Container(
         padding: EdgeInsets.all(10),
