@@ -48,6 +48,9 @@ android {
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        ndk{
+            abiFilters "armeabi-v7a" //只打包flutter所支持的架构，flutter没有armeabi架构，加x86的原因是为了能够兼容模拟器
+        }
     }
 
     buildTypes {
