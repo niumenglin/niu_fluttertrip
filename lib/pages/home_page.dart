@@ -8,6 +8,7 @@ import 'package:niu_fluttertrip/model/gird_nav_model.dart';
 import 'package:niu_fluttertrip/model/home_model.dart';
 import 'package:niu_fluttertrip/model/sales_box_model.dart';
 import 'package:niu_fluttertrip/pages/search_page.dart';
+import 'package:niu_fluttertrip/test/test_page.dart';
 import 'package:niu_fluttertrip/widgets/grid_nav.dart';
 import 'package:niu_fluttertrip/widgets/loading_container.dart';
 import 'package:niu_fluttertrip/widgets/local_nav.dart';
@@ -177,6 +178,10 @@ class _HomePageState extends State<HomePage>
               speakButtonClick: _jumpToSpeak,
               defaultText: SEARCH_BAR_DEFAULT_TEXT,
               leftButtonClick: () {},
+              rightButtonClick: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => TestPage()));
+              },
             ),
           ),
         ),

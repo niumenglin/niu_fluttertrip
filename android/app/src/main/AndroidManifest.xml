@@ -37,5 +37,10 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+       <!--适配全面屏  19.5：9=2.1666 超过了2.1 android:value="2.3"-->
+       <meta-data
+           android:name="android.max_aspect"
+           android:value="2.3"/>
     </application>
 </manifest>

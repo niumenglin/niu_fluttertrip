@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:niu_fluttertrip/test/test_count.dart';
+import 'package:niu_fluttertrip/test/test_full_screen_page.dart';
 import 'package:niu_fluttertrip/test/test_futurebuilder.dart';
 import 'package:niu_fluttertrip/test/test_http.dart';
 import 'package:niu_fluttertrip/test/test_url_launcher.dart';
@@ -30,59 +31,68 @@ class _TestPageState extends State<TestPage> {
             SizedBox(
               height: 30,
             ),
-            InkWell(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => TestHttp()));
-              },
-              child: Text(
-                'http >',
-                style: TextStyle(fontSize: 16),
-              ),
-            ),
+            _item(
+                desc: 'http',
+                onClick: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => TestHttp()));
+                }),
             SizedBox(
               height: 30,
             ),
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => TestFutureBuilder()));
-              },
-              child: Text(
-                'Future与FutureBuilder实用技巧 >',
-                style: TextStyle(fontSize: 16),
-              ),
-            ),
+            _item(
+                desc: 'Future与FutureBuilder实用技巧',
+                onClick: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => TestFutureBuilder()));
+                }),
             SizedBox(
               height: 30,
             ),
-            InkWell(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => TestCountWidget()));
-              },
-              child: Text(
-                '基于shared_preferences实现计数器 >',
-                style: TextStyle(fontSize: 16),
-              ),
-            ),
+            _item(
+                desc: '基于shared_preferences实现计数器',
+                onClick: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => TestCountWidget()));
+                }),
             SizedBox(
               height: 30,
             ),
-            InkWell(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => TestUrlLauncher()));
-              },
-              child: Text(
-                'url_launcher >',
-                style: TextStyle(fontSize: 16),
-              ),
+            _item(
+                desc: 'url_launcher',
+                onClick: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => TestUrlLauncher()));
+                }),
+            SizedBox(
+              height: 30,
             ),
+            _item(
+                desc: 'Flutter全面屏适配',
+                onClick: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => TestFullScreenPage()));
+                }),
           ],
         ),
+      ),
+    );
+  }
+
+  _item({String? desc, Function()? onClick}) {
+    return InkWell(
+      onTap: onClick,
+      child: Text(
+        '${desc ?? '未知功能'} >',
+        style: TextStyle(fontSize: 16),
       ),
     );
   }
