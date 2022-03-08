@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:niu_fluttertrip/dao/search_dao.dart';
 import 'package:niu_fluttertrip/model/search_model.dart';
+import 'package:niu_fluttertrip/pages/speak_page.dart';
 import 'package:niu_fluttertrip/utils/navigator_util.dart';
 import 'package:niu_fluttertrip/widgets/search_bar.dart';
 import 'package:niu_fluttertrip/widgets/webview.dart';
@@ -49,6 +50,14 @@ class _SearchPageState extends State<SearchPage>
   String keyword = '';
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.keyword != null) {
+      _onTextChange(widget.keyword);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
@@ -91,6 +100,7 @@ class _SearchPageState extends State<SearchPage>
               hideLeft: widget.hideLeft,
               defaultText: widget.keyword ?? '',
               hint: widget.hint ?? '',
+              speakButtonClick: _jumpToSpeak,
               leftButtonClick: () {
                 NavigatorUtil.pop(context);
               },
@@ -226,5 +236,10 @@ class _SearchPageState extends State<SearchPage>
       }
     }
     return spans;
+  }
+
+  //跳转语音页
+  _jumpToSpeak() {
+    NavigatorUtil.push(context, SpeakPage());
   }
 }

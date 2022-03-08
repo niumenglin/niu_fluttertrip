@@ -8,6 +8,7 @@ import 'package:niu_fluttertrip/model/gird_nav_model.dart';
 import 'package:niu_fluttertrip/model/home_model.dart';
 import 'package:niu_fluttertrip/model/sales_box_model.dart';
 import 'package:niu_fluttertrip/pages/search_page.dart';
+import 'package:niu_fluttertrip/pages/speak_page.dart';
 import 'package:niu_fluttertrip/test/test_page.dart';
 import 'package:niu_fluttertrip/utils/navigator_util.dart';
 import 'package:niu_fluttertrip/widgets/grid_nav.dart';
@@ -256,5 +257,7 @@ class _HomePageState extends State<HomePage>
   }
 
   //跳转语音页
-  _jumpToSpeak() {}
+  _jumpToSpeak() {
+    NavigatorUtil.push(context, SpeakPage());
+  }
 }
