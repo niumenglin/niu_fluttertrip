@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:niu_fluttertrip/test/test_count.dart';
 import 'package:niu_fluttertrip/test/test_full_screen_page.dart';
 import 'package:niu_fluttertrip/test/test_futurebuilder.dart';
@@ -29,6 +30,14 @@ class _TestPageState extends State<TestPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(
+              height: 30,
+            ),
+            _item(
+                desc: 'Flutter-Toast提示',
+                onClick: () {
+                  Fluttertoast.showToast(msg: 'FlutterToast提示');
+                }),
             SizedBox(
               height: 30,
             ),
