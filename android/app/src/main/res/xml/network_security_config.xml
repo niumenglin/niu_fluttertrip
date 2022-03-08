@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true"/>
+</network-security-config>
+
+<!--解决WebView加载http链接异常 net::ERR_CLEARTEXT_NOT_PERMITTED -->
+<!--方案1：application标签下 加入android:networkSecurityConfig="@xml/network_security_config"-->
+
+<!--方案2：application标签下 加入 android:usesCleartextTraffic="true" -->
