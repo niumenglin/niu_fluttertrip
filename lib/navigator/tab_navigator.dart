@@ -90,6 +90,7 @@ class _TabNavigatorState extends State<TabNavigator> {
         title: Text(
           navLabel,
           style: TextStyle(
+              fontFamily: 'MaShanZheng', //局部widget使用自定义字体
               fontSize: 14,
               color: _currentIndex != position ? _defaultColor : _activeColor),
         ));

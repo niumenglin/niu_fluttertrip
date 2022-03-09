@@ -65,3 +65,10 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  fonts:
+    - family: MaShanZheng # 字体别名
+      fonts:
+        - asset: assets/fonts/MaShanZheng-Regular.ttf
+    - family: ZhiMangXing # 字体别名
+      fonts:
+        - asset: assets/fonts/ZhiMangXing-Regular.ttf

@@ -4,6 +4,8 @@ import 'package:webview_flutter/platform_interface.dart';
 import 'package:webview_flutter/webview_flutter.dart' as web;
 import 'package:webview_flutter/webview_flutter.dart';
 
+import 'loading_view.dart';
+
 /// @author: niumenglin
 /// @time: 2022/2/22-3:46 下午
 /// @desc:WebView
@@ -16,10 +18,13 @@ const CATCH_URLS = [
 class WebView extends StatefulWidget {
   final String? url;
   final String? title;
+
   //状态栏颜色
   final String? statusBarColor;
+
   //是否隐藏AppBar
   final bool? hideAppBar;
+
   //是否禁止返回
   final bool backForbid;
 
@@ -41,6 +46,9 @@ class _WebViewState extends State<WebView> {
   bool exiting = false;
 
   String _title = '';
+
+  //是否loading，默认true
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -65,6 +73,7 @@ class _WebViewState extends State<WebView> {
 
   @override
   Widget build(BuildContext context) {
+    print('WebView----build');
     String statusBarColorStr = widget.statusBarColor ?? 'ffffff';
     Color backButtonColor;
     if (statusBarColorStr == 'ffffff') {
@@ -73,42 +82,56 @@ class _WebViewState extends State<WebView> {
       backButtonColor = Colors.white;
     }
     return Scaffold(
-      body: Column(
-        children: [
-          _appBar(
-              Color(int.parse('0xff' + statusBarColorStr)), backButtonColor),
-          Expanded(
-              child: web.WebView(
-            initialUrl: widget.url ?? '',
-            //是否支持js 默认是不支持的
-            javascriptMode: JavascriptMode.unrestricted,
-            onWebViewCreated: (WebViewController webViewController) {
-              _controller = webViewController;
-            },
-            onProgress: (int progress) {
-              print('WebView is loading (progress : $progress%)');
-            },
-            onPageStarted: (String url) {
-              print('Page started loading: $url');
-              if (_isToMain(url) && !exiting) {
-                if (widget.backForbid) {
-                  //禁止返回，加载当前页面
-                  _controller.loadUrl(widget.url!);
-                } else {
-                  NavigatorUtil.pop(context);
-                  exiting = true;
+      body: LoadingView(
+        isLoading: _isLoading,
+        child: Column(
+          children: [
+            _appBar(
+                Color(int.parse('0xff' + statusBarColorStr)), backButtonColor),
+            Expanded(
+                child: web.WebView(
+              initialUrl: widget.url ?? '',
+              //是否支持js 默认是不支持的
+              javascriptMode: JavascriptMode.unrestricted,
+              onWebViewCreated: (WebViewController webViewController) {
+                _controller = webViewController;
+              },
+              onProgress: (int progress) async {
+                print('WebView is loading (progress : $progress%)');
+                if (progress == 100) {
+                  setState(() {
+                    _isLoading = false;
+                  });
                 }
-              }
-            },
-            onPageFinished: (String url) {
-              print('Page finished loading: $url');
-              _getTitle();
-            },
+              },
+              onPageStarted: (String url) async {
+                print('Page started loading: $url');
+                setState(() {
+                  _isLoading = true;
+                });
+                if (_isToMain(url) && !exiting) {
+                  if (widget.backForbid) {
+                    //禁止返回，加载当前页面
+                    _controller.loadUrl(widget.url!);
+                  } else {
+                    NavigatorUtil.pop(context);
+                    exiting = true;
+                  }
+                }
+              },
+              onPageFinished: (String url) async {
+                print('Page finished loading: $url');
+                setState(() {
+                  _isLoading = false;
+                });
+                _getTitle();
+              },
 
-            gestureNavigationEnabled: true,
-            backgroundColor: const Color(0x00000000),
-          ))
-        ],
+              gestureNavigationEnabled: true,
+              backgroundColor: const Color(0x00000000),
+            ))
+          ],
+        ),
       ),
     );
   }

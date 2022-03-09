@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: '牛拍',
       theme: ThemeData(
+        // fontFamily: 'MaShanZheng',//将字体应用到全局
         primarySwatch: Colors.blue,
       ),
       builder: (context, child) => Scaffold(
