@@ -4,6 +4,7 @@ import 'package:niu_fluttertrip/test/test_count.dart';
 import 'package:niu_fluttertrip/test/test_full_screen_page.dart';
 import 'package:niu_fluttertrip/test/test_futurebuilder.dart';
 import 'package:niu_fluttertrip/test/test_http.dart';
+import 'package:niu_fluttertrip/test/test_lottie.dart';
 import 'package:niu_fluttertrip/test/test_url_launcher.dart';
 import 'package:niu_fluttertrip/utils/navigator_util.dart';
 
@@ -37,6 +38,14 @@ class _TestPageState extends State<TestPage> {
                 desc: 'Flutter-Toast提示',
                 onClick: () {
                   Fluttertoast.showToast(msg: 'FlutterToast提示');
+                }),
+            SizedBox(
+              height: 30,
+            ),
+            _item(
+                desc: 'Lottie',
+                onClick: () {
+                  NavigatorUtil.push(context, TestLottiePage());
                 }),
             SizedBox(
               height: 30,
