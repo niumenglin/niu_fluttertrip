@@ -82,56 +82,62 @@ class _WebViewState extends State<WebView> {
       backButtonColor = Colors.white;
     }
     return Scaffold(
-      body: LoadingView(
-        isLoading: _isLoading,
-        child: Column(
-          children: [
-            _appBar(
-                Color(int.parse('0xff' + statusBarColorStr)), backButtonColor),
-            Expanded(
-                child: web.WebView(
-              initialUrl: widget.url ?? '',
-              //是否支持js 默认是不支持的
-              javascriptMode: JavascriptMode.unrestricted,
-              onWebViewCreated: (WebViewController webViewController) {
-                _controller = webViewController;
-              },
-              onProgress: (int progress) async {
-                print('WebView is loading (progress : $progress%)');
-                if (progress == 100) {
+      body: Stack(
+        children: [
+          Column(
+            children: [
+              _appBar(Color(int.parse('0xff' + statusBarColorStr)),
+                  backButtonColor),
+              Expanded(
+                  child: web.WebView(
+                initialUrl: widget.url ?? '',
+                //是否支持js 默认是不支持的
+                javascriptMode: JavascriptMode.unrestricted,
+                onWebViewCreated: (WebViewController webViewController) {
+                  _controller = webViewController;
+                },
+                onProgress: (int progress) async {
+                  print('WebView is loading (progress : $progress%)');
+                  if (progress == 100) {
+                    setState(() {
+                      _isLoading = false;
+                    });
+                  }
+                },
+                onPageStarted: (String url) async {
+                  print('Page started loading: $url');
+                  setState(() {
+                    _isLoading = true;
+                  });
+                  if (_isToMain(url) && !exiting) {
+                    if (widget.backForbid) {
+                      //禁止返回，加载当前页面
+                      _controller.loadUrl(widget.url!);
+                    } else {
+                      NavigatorUtil.pop(context);
+                      exiting = true;
+                    }
+                  }
+                },
+                onPageFinished: (String url) async {
+                  print('Page finished loading: $url');
                   setState(() {
                     _isLoading = false;
                   });
-                }
-              },
-              onPageStarted: (String url) async {
-                print('Page started loading: $url');
-                setState(() {
-                  _isLoading = true;
-                });
-                if (_isToMain(url) && !exiting) {
-                  if (widget.backForbid) {
-                    //禁止返回，加载当前页面
-                    _controller.loadUrl(widget.url!);
-                  } else {
-                    NavigatorUtil.pop(context);
-                    exiting = true;
-                  }
-                }
-              },
-              onPageFinished: (String url) async {
-                print('Page finished loading: $url');
-                setState(() {
-                  _isLoading = false;
-                });
-                _getTitle();
-              },
+                  _getTitle();
+                },
 
-              gestureNavigationEnabled: true,
-              backgroundColor: const Color(0x00000000),
-            ))
-          ],
-        ),
+                gestureNavigationEnabled: true,
+                backgroundColor: const Color(0x00000000),
+              ))
+            ],
+          ),
+          LoadingView(
+            child: Container(),
+            cover: true,
+            isLoading: _isLoading,
+          ),
+        ],
       ),
     );
   }
