@@ -1,9 +1,11 @@
+import 'package:disable_screenshots/disable_screenshots.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:niu_fluttertrip/pages/home_page.dart';
 import 'package:niu_fluttertrip/pages/my_page.dart';
 import 'package:niu_fluttertrip/pages/search_page.dart';
 import 'package:niu_fluttertrip/pages/travel_page.dart';
+import 'package:niu_fluttertrip/widgets/water_mark.dart';
 
 class TabNavigator extends StatefulWidget {
   const TabNavigator({Key? key}) : super(key: key);
@@ -18,6 +20,17 @@ class _TabNavigatorState extends State<TabNavigator> {
   int _currentIndex = 0;
   final PageController _controller = PageController(initialPage: 0);
   DateTime? _lastClickTime;
+  // 初始化水印插件
+  DisableScreenshots _plugin = DisableScreenshots();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    Future.delayed(Duration.zero, () {
+      _plugin.addCustomWatermark(
+          context, const WaterMark(rowCount: 3, columnCount: 10, text: "牛拍"));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +72,9 @@ class _TabNavigatorState extends State<TabNavigator> {
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,
           onTap: (index) {
+            // // 添加自定义widget当做水印
+            // _plugin.addCustomWatermark(
+            //     context, WaterMark(rowCount: 3, columnCount: 10, text: "牛拍"));
             _controller.jumpToPage(index);
             setState(() {
               _currentIndex = index;

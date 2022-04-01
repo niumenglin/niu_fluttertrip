@@ -64,6 +64,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.4"
+  disable_screenshots:
+    dependency: "direct main"
+    description:
+      name: disable_screenshots
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.2.0"
   fake_async:
     dependency: transitive
     description:
